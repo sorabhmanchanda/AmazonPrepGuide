@@ -1,9 +1,11 @@
 # Free hosting at https://<owner>.github.io/<repo>/ (or https://<user>.github.io/ for a user site repo).
+# Matches GitHub’s Pages guidance: do not cancel in-flight deploys; use configure-pages for BASE_PATH.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main, master]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,7 +14,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -20,27 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
           cache: npm
-
-      - name: Compute BASE_PATH for Vite
-        id: base
-        shell: bash
-        run: |
-          NAME="${{ github.event.repository.name }}"
-          OWNER="${{ github.repository_owner }}"
-          if [ "$NAME" = "$OWNER.github.io" ]; then
-            echo "path=/" >> "$GITHUB_OUTPUT"
-          else
-            echo "path=/$NAME/" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Install and build
         run: npm ci --legacy-peer-deps && npm run build
         env:
-          BASE_PATH: ${{ steps.base.outputs.path }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
           GITHUB_PAGES: '1'
 
       - uses: actions/upload-pages-artifact@v3
@@ -50,9 +44,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deployment
