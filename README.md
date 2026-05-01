@@ -43,10 +43,12 @@ This repo includes **`.github/workflows/deploy-github-pages.yml`**. Use it when 
 
 1. Create a new repository on GitHub and push this project (see [GitHub docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)).
 2. In the repo on GitHub: **Settings → Pages → Build and deployment → Source**: choose **GitHub Actions** (not “Deploy from a branch”).
-3. Merge or push to **`main`** or **`master`**; the workflow builds with the correct `BASE_PATH` and publishes `dist/`.
-4. After the first run: **Settings → Pages** shows the site URL, typically **`https://<your-username>.github.io/<repo-name>/`**.
+3. Merge or push to **`main`** or **`master`**; the workflow uses **`actions/configure-pages`** so **`BASE_PATH`** matches GitHub’s real site path, then publishes **`dist/`**.
+4. After a successful run: **Settings → Pages** shows the site URL, typically **`https://<your-username>.github.io/<repo-name>/`**.
 
-If the repository is named **`<username>.github.io`** (user site), the workflow sets **`BASE_PATH=/`** so the app is served at **`https://<username>.github.io/`**.
+If the repository is named **`<username>.github.io`** (user site), **`configure-pages`** supplies an empty base path and the app is served at **`https://<username>.github.io/`**.
+
+**If a run fails or the site 404s:** open **Actions**, click the failed run, and read the red step (often **`npm ci` / build**, **`configure-pages`**, or **`deploy-pages`**). On the first deploy, GitHub may show **“Review deployments”** for the **`github-pages`** environment—approve it, then **Re-run all jobs** or use **Actions → Deploy to GitHub Pages → Run workflow** (`workflow_dispatch`).
 
 **Local check** (subpath, same as a project repo):
 
