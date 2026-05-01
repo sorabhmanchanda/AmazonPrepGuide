@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Crimson Pro", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-surface: #0a0f16;
+  --color-surface-2: #1a1f2e;
+  --color-card: #1a2332;
+  --color-card-hover: #222d3d;
+  --color-amazon: #232f3e;
+  --color-amazon-muted: #37475a;
+  --color-brand: #ff9900;
+  --color-brand-deep: #ea580c;
+  --color-ink: #e8eaed;
+  --color-ink-muted: #9aa0a6;
+  --color-ink-faint: #6b7280;
+  --color-success: #34d399;
+  --color-info: #4da3ff;
+  --color-danger: #ff6b6b;
+  --color-purple: #8b5cf6;
+  --color-warn: #fbbf24;
+  --radius-card: 0.875rem;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html.light {
+  color-scheme: light;
+  --color-surface: #f4f6f8;
+  --color-surface-2: #e8ecf1;
+  --color-card: #ffffff;
+  --color-card-hover: #eef2f7;
+  --color-amazon: #232f3e;
+  --color-amazon-muted: #4a5a6e;
+  --color-ink: #0f172a;
+  --color-ink-muted: #475569;
+  --color-ink-faint: #64748b;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+  }
+
+  .prose-guide {
+    @apply max-w-none text-ink leading-relaxed;
+  }
+
+  .prose-guide h1 {
+    @apply font-serif text-3xl font-semibold text-brand mb-4 mt-8 first:mt-0;
+  }
+
+  .prose-guide h2 {
+    @apply font-serif text-2xl font-semibold text-ink mt-8 mb-3 border-b border-amazon-muted/40 pb-2;
+  }
+
+  .prose-guide h3 {
+    @apply text-lg font-semibold text-ink mt-6 mb-2;
+  }
+
+  .prose-guide p {
+    @apply mb-3 text-ink-muted;
+  }
+
+  .prose-guide ul {
+    @apply mb-3 list-disc pl-5 text-ink-muted;
+  }
+
+  .prose-guide ol {
+    @apply mb-3 list-decimal pl-5 text-ink-muted;
+  }
+
+  .prose-guide li {
+    @apply mb-1;
+  }
+
+  .prose-guide table {
+    @apply w-full border-collapse text-sm my-4 overflow-hidden rounded-lg;
+  }
+
+  .prose-guide th {
+    @apply bg-amazon text-ink px-3 py-2 text-left font-medium;
+  }
+
+  .prose-guide td {
+    @apply border border-amazon-muted/30 px-3 py-2 text-ink-muted;
+  }
+
+  .prose-guide code {
+    @apply rounded bg-surface-2 px-1.5 py-0.5 font-mono text-sm text-warn;
+  }
+
+  .prose-guide pre {
+    @apply my-4 overflow-x-auto rounded-lg bg-amazon p-4 font-mono text-sm text-ink;
+  }
+
+  .prose-guide pre code {
+    @apply bg-transparent p-0 text-ink;
+  }
+
+  .prose-guide a {
+    @apply text-info underline-offset-2 hover:underline;
+  }
+
+  .prose-guide blockquote {
+    @apply border-l-4 border-brand pl-4 italic text-ink-muted my-4;
+  }
+
+  .prose-guide hr {
+    @apply my-8 border-amazon-muted/30;
+  }
+
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+
+    body {
+      background: white !important;
+      color: black !important;
+    }
+  }
+}
