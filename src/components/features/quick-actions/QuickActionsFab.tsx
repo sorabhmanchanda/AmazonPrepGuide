@@ -7,7 +7,7 @@ export function QuickActionsFab() {
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="no-print fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
+    <div className="no-print fixed bottom-6 right-6 z-[60] flex flex-col items-end gap-2">
       {open && (
         <div className="flex flex-col gap-2 rounded-xl border border-amazon-muted/40 bg-card p-2 shadow-xl">
           <Button variant="secondary" size="sm" asChild>

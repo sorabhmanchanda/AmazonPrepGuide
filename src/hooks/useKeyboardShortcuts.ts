@@ -7,6 +7,7 @@ export function useKeyboardShortcuts() {
   const navigate = useNavigate()
   const setSearchOpen = useUIStore((s) => s.setSearchOpen)
   const setShortcutsOpen = useUIStore((s) => s.setShortcutsOpen)
+  const setSidebarOpen = useUIStore((s) => s.setSidebarOpen)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -23,6 +24,7 @@ export function useKeyboardShortcuts() {
       if (e.key === 'Escape') {
         setSearchOpen(false)
         setShortcutsOpen(false)
+        setSidebarOpen(false)
       }
       if (e.key === '?' && !mod && !typing) {
         e.preventDefault()
@@ -39,5 +41,5 @@ export function useKeyboardShortcuts() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [navigate, setSearchOpen, setShortcutsOpen])
+  }, [navigate, setSearchOpen, setShortcutsOpen, setSidebarOpen])
 }
